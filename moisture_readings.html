@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arduino Moisture Readings</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        h1 { color: #333; }
+        .moisture { font-size: 2em; }
+        #error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Arduino Moisture Readings</h1>
+    <div class="moisture" id="moisture">Connecting...</div>
+    <div id="error"></div>
+    <button id="connect">Connect</button>
+
+    <script>
+        let port;
+
+        async function connect() {
+            try {
+                port = await navigator.serial.requestPort();
+                await port.open({ baudRate: 9600 });
+
+                const reader = port.readable.getReader();
+                const decoder = new TextDecoder();
+
+                document.getElementById('moisture').innerText = 'Reading...';
+
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break; // Exit the loop if the reader is done
+                    
+                    const moistureLevel = decoder.decode(value).trim();
+                    document.getElementById('moisture').innerText = moistureLevel + ' (Raw Value)';
+                }
+
+                reader.releaseLock();
+            } catch (error) {
+                document.getElementById('error').innerText = 'Error: ' + error;
+                console.error(error);
+            }
+        }
+
+        document.getElementById('connect').addEventListener('click', connect);
+    </script>
+</body>
+</html>

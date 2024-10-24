@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Q&A with Comments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        #postForm {
+            margin-bottom: 20px;
+        }
+        #postsContainer {
+            margin-top: 20px;
+        }
+        .post {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .comments {
+            margin-top: 10px;
+            margin-left: 20px;
+            border-left: 2px solid #ccc;
+            padding-left: 10px;
+        }
+        .comment {
+            margin-top: 5px;
+            background-color: #f9f9f9;
+            padding: 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Mini Q&A</h1>
+    <div id="postForm">
+        <textarea id="postInput" placeholder="What's your question?" rows="4" cols="50"></textarea><br>
+        <button id="postButton">Submit</button>
+    </div>
+
+    <div id="postsContainer"></div>
+
+    <script>
+        document.getElementById('postButton').onclick = function() {
+            const postInput = document.getElementById('postInput');
+            const postContent = postInput.value.trim();
+
+            if (postContent) {
+                const postsContainer = document.getElementById('postsContainer');
+
+                // Create a new post element
+                const postElement = document.createElement('div');
+                postElement.className = 'post';
+                postElement.innerHTML = `
+                    <div>${postContent}</div>
+                    <div class="commentsContainer">
+                        <textarea placeholder="Add a comment..." rows="2" cols="40"></textarea>
+                        <button class="commentButton">Comment</button>
+                        <div class="comments"></div>
+                    </div>
+                `;
+
+                // Add event listener for the comment button
+                postElement.querySelector('.commentButton').onclick = function() {
+                    const commentInput = postElement.querySelector('textarea');
+                    const commentContent = commentInput.value.trim();
+
+                    if (commentContent) {
+                        const commentsContainer = postElement.querySelector('.comments');
+                        const commentElement = document.createElement('div');
+                        commentElement.className = 'comment';
+                        commentElement.textContent = commentContent;
+
+                        commentsContainer.appendChild(commentElement);
+                        commentInput.value = ''; // Clear the input
+                    } else {
+                        alert("Please enter a comment!");
+                    }
+                };
+
+                // Append the new post to the posts container
+                postsContainer.prepend(postElement); // Add to the top
+                postInput.value = ''; // Clear the input
+            } else {
+                alert("Please enter a question or post!");
+            }
+        };
+    </script>
+<a href="exam.html">Back to Home</a>
+</body>
+</html>
