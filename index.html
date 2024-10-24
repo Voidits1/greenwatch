@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenWatch</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            flex: 1;
+            height: 100vh; /* Full height of the viewport */
+        }
+        #sidebar {
+            width: 200px;
+            background: #f4f4f4;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+        #rightSidebar {
+            width: 200px;
+            background: #f4f4f4;
+            padding: 20px;
+            border-left: 1px solid #ccc;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+        }
+        .post-form {
+            margin-bottom: 20px; /* Space between post form and posts */
+        }
+        button {
+            cursor: pointer;
+        }
+        #addFeatureBtn {
+            position: absolute;
+            bottom: 20px;
+            left: 220px; /* Adjust according to sidebar width */
+            font-size: 24px;
+        }
+        iframe {
+            width: 400px;
+            height: 100vh; /* Full height of the viewport */
+            border: none; /* Remove default border */
+            margin-left: 20px; /* Space between content and iframe */
+        }
+        .feature-button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #007BFF; /* Bootstrap primary color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .feature-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+        .feature-item {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px 0;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside id="sidebar">
+            <h2>Home</h2>
+            <ul id="featureList">
+                <li><button onclick="location.href='flowers.html'" class="feature-button">Flowers</button></li>
+                <li><button onclick="location.href='plants.html'" class="feature-button">Plants</button></li>
+                <li><button onclick="location.href='trees.html'" class="feature-button">Trees</button></li>
+            </ul>
+        </aside>
+        <div class="content">
+            <header>
+                <h1>GreenWatch</h1>
+                <button id="themeToggle">Switch Theme</button>
+            </header>
+            <div class="post-form">
+                <textarea placeholder="What's on your mind?" id="postInput"></textarea>
+                <button id="postButton">Post</button>
+            </div>
+            <div id="postsContainer" class="posts-container"></div>
+            <button id="addFeatureBtn" class="add-feature" onclick="addFeature()">+</button>
+        </div>
+        <iframe src="moisture_readings.html" title="Moisture Readings"></iframe>
+    </div>
+    <footer>
+        <p>&copy; 2024 GreenWatch. All rights reserved.</p>
+    </footer>
+    <script>
+        function addFeature() {
+            const newFeature = prompt("Enter the name of the new feature:");
+            if (newFeature && newFeature.trim()) {
+                const sidebar = document.getElementById('featureList');
+                const newFeatureItem = document.createElement('li');
+                newFeatureItem.className = 'feature-item';
+                newFeatureItem.textContent = newFeature;
+
+                const newButton = document.createElement('button');
+                newButton.textContent = 'Go to ' + newFeature;
+                newButton.className = 'feature-button';
+                newButton.onclick = () => location.href = newFeature.toLowerCase() + '.html'; // Navigate to the corresponding page
+                
+                newFeatureItem.appendChild(newButton);
+                sidebar.appendChild(newFeatureItem);
+            } else {
+                alert('Please enter a valid feature name.');
+            }
+        }
+    </script>
+</body>
+</html>
